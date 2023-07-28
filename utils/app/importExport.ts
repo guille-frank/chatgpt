@@ -9,15 +9,23 @@ import {
 } from '@/types/export';
 import { FolderInterface } from '@/types/folder';
 import { Prompt } from '@/types/prompt';
+import { getCookieValue } from '@/utils/app/sessions';
+import { toast } from 'react-toastify';
 
 import { cleanConversationHistory } from './clean';
+import { Cookie } from 'next/font/google';
 
 export function isExportFormatV1(obj: any): obj is ExportFormatV1 {
   return Array.isArray(obj);
 }
 
 export function isExportFormatV2(obj: any): obj is ExportFormatV2 {
-  return !('version' in obj) && 'folders' in obj && 'history' in obj;
+  if (obj != null && obj.version != null && 'folders' in obj && 'history' in obj) {
+    if (obj.version === 2) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export function isExportFormatV3(obj: any): obj is ExportFormatV3 {
@@ -71,7 +79,7 @@ function currentDate() {
   return `${month}-${day}`;
 }
 
-export const exportData = () => {
+export const exportData = async () => {
   let history = localStorage.getItem('conversationHistory');
   let folders = localStorage.getItem('folders');
   let prompts = localStorage.getItem('prompts');
@@ -88,7 +96,7 @@ export const exportData = () => {
     prompts = JSON.parse(prompts);
   }
 
-  const data = {
+  /*const data = {
     version: 4,
     history: history || [],
     folders: folders || [],
@@ -107,6 +115,94 @@ export const exportData = () => {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+  */
+  const data = {
+    version: 4,
+    history: history || [],
+    folders: folders || [],
+    prompts: prompts || [],
+  } as LatestExportFormat;
+
+  // Convertir el objeto a una cadena JSON
+  const jsonData = JSON.stringify(data);
+
+  // Obtener la cookie de autenticación (reemplaza 'wp-gstools_login' con el nombre de tu cookie)
+  const authCookie = getCookieValue('wp-gstools_login');
+
+  // Verificar si existe la cookie de autenticación
+  if (!authCookie) {
+    toast.error('No se encontro tu cookie de notificación.', {
+      position: 'top-center', // Posición de la notificación en la pantalla
+      autoClose: 3000, // Tiempo en milisegundos que la notificación se mostrará antes de cerrarse automáticamente
+      hideProgressBar: true, // Mostrar barra de progreso
+      closeOnClick: true, // Cerrar la notificación al hacer clic en ella
+      pauseOnHover: true, // Pausar el tiempo de cierre al pasar el cursor sobre la notificación
+      draggable: true, // Permitir arrastrar la notificación
+      progress: undefined, // Componente personalizado para la barra de progreso
+    });
+    console.error('Error: No se encontró la cookie de autenticación');
+    window.location.reload();
+    // ... Código adicional para manejar el caso en el que la cookie no existe ...
+    return;
+  }
+  console.log (authCookie);
+  const dataPOST = {
+    cookie: authCookie,
+    json: jsonData,
+  };
+
+  try {
+    const response = await fetch('https://backoffice.guidevstudios.com/wp-gstools/wp-json/gs/v1/save_json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataPOST),
+    });
+    //const responseData = await response.json();
+    const responseText = await response.text();
+    // Verificar la respuesta del servidor
+    if (response.ok) {
+      console.log('Exportación exitosa');
+      toast.success('¡Ya se subieron tus chats!', {
+        position: 'top-center', // Posición de la notificación en la pantalla
+        autoClose: 3000, // Tiempo en milisegundos que la notificación se mostrará antes de cerrarse automáticamente
+        hideProgressBar: true, // Mostrar barra de progreso
+        closeOnClick: true, // Cerrar la notificación al hacer clic en ella
+        pauseOnHover: true, // Pausar el tiempo de cierre al pasar el cursor sobre la notificación
+        draggable: true, // Permitir arrastrar la notificación
+        progress: undefined, // Componente personalizado para la barra de progreso
+      });
+      console.log("Response: " + responseText);
+      // ... Código adicional para manejar la respuesta exitosa ...
+    } else {
+      toast.error('Hubo un error al authenticar', {
+        position: 'top-center', // Posición de la notificación en la pantalla
+        autoClose: 3000, // Tiempo en milisegundos que la notificación se mostrará antes de cerrarse automáticamente
+        hideProgressBar: true, // Mostrar barra de progreso
+        closeOnClick: true, // Cerrar la notificación al hacer clic en ella
+        pauseOnHover: true, // Pausar el tiempo de cierre al pasar el cursor sobre la notificación
+        draggable: true, // Permitir arrastrar la notificación
+        progress: undefined, // Componente personalizado para la barra de progreso
+      });
+      console.error('Error: No se pudo autenticar');
+      console.error("Response: " + responseText);
+      window.location.reload();
+      // ... Código adicional para manejar el error de autenticación ...
+    }
+  } catch (error) {
+    toast.error('Error general', {
+      position: 'top-center', // Posición de la notificación en la pantalla
+      autoClose: 3000, // Tiempo en milisegundos que la notificación se mostrará antes de cerrarse automáticamente
+      hideProgressBar: true, // Mostrar barra de progreso
+      closeOnClick: true, // Cerrar la notificación al hacer clic en ella
+      pauseOnHover: true, // Pausar el tiempo de cierre al pasar el cursor sobre la notificación
+      draggable: true, // Permitir arrastrar la notificación
+      progress: undefined, // Componente personalizado para la barra de progreso
+    });
+    console.error('Error:', error);
+    // ... Código adicional para manejar otros errores ...
+  }
 };
 
 export const importData = (

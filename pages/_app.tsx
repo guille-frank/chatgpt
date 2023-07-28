@@ -1,9 +1,12 @@
+import { ToastContainer } from 'react-toastify';
 import { Toaster } from 'react-hot-toast';
+
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
+import 'react-toastify/dist/ReactToastify.css';
 
 import '@/styles/globals.css';
 
@@ -14,6 +17,7 @@ function App({ Component, pageProps }: AppProps<{}>) {
 
   return (
     <div className={inter.className}>
+      <ToastContainer  />
       <Toaster />
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />

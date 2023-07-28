@@ -1,4 +1,4 @@
-import { IconFileExport, IconSettings } from '@tabler/icons-react';
+import { IconFileUpload, IconSettings } from '@tabler/icons-react';
 import { useContext, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
@@ -45,8 +45,8 @@ export const ChatbarSettings = () => {
       <Import onImport={handleImportConversations} />
 
       <SidebarButton
-        text={t('Export data')}
-        icon={<IconFileExport size={18} />}
+        text={t('Update My Chats')}
+        icon={<IconFileUpload size={18} />}
         onClick={() => handleExportData()}
       />
 

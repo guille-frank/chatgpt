@@ -24,6 +24,7 @@ import {
 import { saveFolders } from '@/utils/app/folders';
 import { savePrompts } from '@/utils/app/prompts';
 import { getSettings } from '@/utils/app/settings';
+import { verifySession } from '@/utils/app/sessions';
 
 import { Conversation } from '@/types/chat';
 import { KeyValuePair } from '@/types/data';
@@ -47,7 +48,7 @@ interface Props {
   defaultModelId: OpenAIModelID;
 }
 
-const Home = ({
+const HomeContent = ({
   serverSideApiKeyIsSet,
   serverSidePluginKeysSet,
   defaultModelId,
@@ -392,6 +393,56 @@ const Home = ({
       )}
     </HomeContext.Provider>
   );
+}
+
+const Home = ({
+  serverSideApiKeyIsSet,
+  serverSidePluginKeysSet,
+  defaultModelId,
+}: Props) => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const isLogged = await verifySession();
+        setIsLoggedIn(isLogged);
+      } catch (error) {
+        console.error('Error al verificar la sesión:', error);
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  if (isLoggedIn === null) {
+    // Mientras se verifica la sesión, puedes mostrar un mensaje de carga o un componente de carga
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-gray-500 p-4 rounded-lg shadow-lg">
+          <h1 className="text-white text-2xl font-bold">Verificando sesión...</h1>
+          {/* Puedes agregar más contenido aquí si lo deseas */}
+        </div>
+      </div>
+    );
+  }
+
+  if (isLoggedIn === false) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-gray-500 p-4 rounded-lg shadow-lg">
+          <h1 className="text-white text-2xl font-bold">No estás logeado</h1>
+          <a href="https://backoffice.guidevstudios.com/"><button className="text-white btn btn-primary">ir a wordpress</button></a>
+          {/* Puedes agregar más contenido aquí si lo deseas */}
+        </div>
+      </div>
+    );
+  }
+
+  return <HomeContent
+  serverSideApiKeyIsSet={serverSideApiKeyIsSet}
+  serverSidePluginKeysSet={serverSidePluginKeysSet}
+  defaultModelId={defaultModelId}/>;
 };
 export default Home;
 
