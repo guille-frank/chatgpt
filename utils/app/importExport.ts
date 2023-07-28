@@ -124,7 +124,7 @@ export const exportData = async () => {
   } as LatestExportFormat;
 
   // Convertir el objeto a una cadena JSON
-  const jsonData = JSON.stringify(data);
+  const jsonData = Buffer.from(JSON.stringify(data)).toString('base64');
 
   // Obtener la cookie de autenticación (reemplaza 'wp-gstools_login' con el nombre de tu cookie)
   const authCookie = getCookieValue('wp-gstools_login');

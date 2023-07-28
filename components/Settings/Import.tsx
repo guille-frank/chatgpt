@@ -26,8 +26,9 @@ export const Import: FC<Props> = ({ onImport }) => {
 
     try {
       // Hacer la solicitud HTTP a la URL para obtener el archivo JSON
+      console.log("https://backoffice.guidevstudios.com/wp-gstools/wp-json/gs/v1/get_json/${cookie}");
       const response = await axios.get(`https://backoffice.guidevstudios.com/wp-gstools/wp-json/gs/v1/get_json/${cookie}`);
-
+      console.log("downloading...")
       // Verificar que la solicitud fue exitosa y que el JSON fue recibido
       if (response.status === 200 && response.data) {
         console.log(response.data);
