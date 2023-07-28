@@ -94,8 +94,9 @@ export const Chatbar = () => {
     localStorage.setItem('pluginKeys', JSON.stringify(updatedPluginKeys));
   };
 
-  const handleExportData = () => {
-    exportData();
+  const handleExportData = async () => {
+    // Llamar a la función exportData desde aquí
+    await exportData();
   };
 
   const handleImportConversations = (data: SupportedExportFormats) => {

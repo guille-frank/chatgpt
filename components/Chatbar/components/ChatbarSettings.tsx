@@ -17,6 +17,7 @@ import { PluginKeys } from './PluginKeys';
 export const ChatbarSettings = () => {
   const { t } = useTranslation('sidebar');
   const [isSettingDialogOpen, setIsSettingDialog] = useState<boolean>(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const {
     state: {
@@ -47,7 +48,14 @@ export const ChatbarSettings = () => {
       <SidebarButton
         text={t('Update My Chats')}
         icon={<IconFileUpload size={18} />}
-        onClick={() => handleExportData()}
+        onClick={() => {
+          handleExportData();
+          setIsButtonDisabled(true);
+          setTimeout(() => {
+            setIsButtonDisabled(false);
+          }, 10000);
+        }}
+        disabled={isButtonDisabled}
       />
 
       <SidebarButton
