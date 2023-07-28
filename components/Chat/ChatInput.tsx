@@ -386,11 +386,11 @@ export const ChatInput = ({
           rel="noreferrer"
           className="underline"
         >
-          Guidev Studios
+          Guidev Studios. 
         </a>
         .{' '}
         {t(
-          "Developed by Guidev Studios.",
+          "Developed by Guidev Studios (G.F.G.).",
         )}
       </div>
     </div>
