@@ -1,4 +1,4 @@
-import { IconDownload } from '@tabler/icons-react';
+import { IconDownload, IconLoader} from '@tabler/icons-react';
 import { FC, useState } from 'react';
 import axios from 'axios'; // Importa la librería axios
 
@@ -54,7 +54,7 @@ export const Import: FC<Props> = ({ onImport }) => {
     <>
       <SidebarButton
         text={t('Download My Chats')}
-        icon={<IconDownload size={18} />}
+        icon={isLoading?<IconLoader size={18} />:<IconDownload size={18} />}
         onClick={handleImportClick}
         disabled={isLoading}
       />

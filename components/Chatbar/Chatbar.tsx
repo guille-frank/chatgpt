@@ -1,4 +1,5 @@
-import { useCallback, useContext, useEffect } from 'react';
+import { useState, useCallback, useContext, useEffect } from 'react';
+
 
 import { useTranslation } from 'next-i18next';
 
@@ -28,6 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const Chatbar = () => {
   const { t } = useTranslation('sidebar');
+  const [isButtonUploadDisabled, setButtonUploadDisabled] = useState(false);
 
   const chatBarContextValue = useCreateReducer<ChatbarInitialState>({
     initialState,
@@ -95,9 +97,23 @@ export const Chatbar = () => {
   };
 
   const handleExportData = async () => {
-    // Llamar a la función exportData desde aquí
-    await exportData();
+    // Iniciar la exportación de datos, establecer isLoading en true
+    setButtonUploadDisabled(true);
+    console.log(isButtonUploadDisabled);
+    try {
+      // Llamar a la función exportData desde aquí y esperar a que termine
+      await exportData();
+
+      // La exportación de datos ha terminado, establecer isLoading en false
+      setButtonUploadDisabled(false);
+      console.log(isButtonUploadDisabled);
+    } catch (error) {
+      // Manejar cualquier error que ocurra durante la exportación de datos
+      console.error('Error al exportar los datos:', error);
+      setButtonUploadDisabled(false); // Asegurarnos de habilitar la exportación de datos en caso de error también
+    }
   };
+
 
   const handleImportConversations = (data: SupportedExportFormats) => {
     const { history, folders, prompts }: LatestExportFormat = importData(data);
@@ -218,6 +234,8 @@ export const Chatbar = () => {
         handlePluginKeyChange,
         handleClearPluginKey,
         handleApiKeyChange,
+        isButtonUploadDisabled, // Agrega 'isButtonDisabled' al contexto
+        setButtonUploadDisabled, // Agrega 'setIsButtonDisabled' al contexto
       }}
     >
       <Sidebar<Conversation>

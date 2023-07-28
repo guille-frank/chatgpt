@@ -1,5 +1,5 @@
-import { IconFileUpload, IconSettings } from '@tabler/icons-react';
-import { useContext, useState } from 'react';
+import { IconFileUpload, IconLoader, IconSettings } from '@tabler/icons-react';
+import { useEffect, useContext, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
@@ -17,7 +17,7 @@ import { PluginKeys } from './PluginKeys';
 export const ChatbarSettings = () => {
   const { t } = useTranslation('sidebar');
   const [isSettingDialogOpen, setIsSettingDialog] = useState<boolean>(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const { isButtonUploadDisabled, setButtonUploadDisabled } = useContext(ChatbarContext);
 
   const {
     state: {
@@ -47,15 +47,14 @@ export const ChatbarSettings = () => {
 
       <SidebarButton
         text={t('Update My Chats')}
-        icon={<IconFileUpload size={18} />}
+        icon={isButtonUploadDisabled ? <IconLoader size={18} /> : <IconFileUpload size={18} />}
         onClick={() => {
-          handleExportData();
-          setIsButtonDisabled(true);
-          setTimeout(() => {
-            setIsButtonDisabled(false);
-          }, 10000);
+          if (!isButtonUploadDisabled) {
+            setButtonUploadDisabled(true);
+            handleExportData();
+          }
         }}
-        disabled={isButtonDisabled}
+        disabled={isButtonUploadDisabled}
       />
 
       <SidebarButton
