@@ -200,11 +200,10 @@ export const SystemPrompt: FC<Props> = ({
         ref={textareaRef}
         className="w-full rounded-lg border border-neutral-200 bg-transparent px-4 py-3 text-neutral-900 dark:border-neutral-600 dark:text-neutral-100"
         style={{
-          resize: 'none',
           bottom: `${textareaRef?.current?.scrollHeight}px`,
           maxHeight: '100px',
           overflow: `${
-            textareaRef.current && textareaRef.current.scrollHeight > 400
+            textareaRef.current && textareaRef.current.scrollHeight > 100
               ? 'auto'
               : 'hidden'
           }`,
