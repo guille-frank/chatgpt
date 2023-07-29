@@ -42,6 +42,10 @@ import { HomeInitialState, initialState } from './home.state';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import useInterval from '@/utils/app/useInterval';
+
+import { toast } from 'react-toastify';
+
 interface Props {
   serverSideApiKeyIsSet: boolean;
   serverSidePluginKeysSet: boolean;
@@ -401,10 +405,27 @@ const Home = ({
   defaultModelId,
 }: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+
   useEffect(() => {
+    const checkLoginStatusFirst = async () => {
+      if (isLoggedIn === null) {
+        try {
+          const isLogged = await verifySession(true);
+          setIsLoggedIn(isLogged);
+        } catch (error) {
+          console.error('Error al verificar la sesión:', error);
+          setIsLoggedIn(null);
+        }
+      }
+    };
+
+    checkLoginStatusFirst();
+  }, []);
+  // Verificar el estado de inicio de sesión cada minuto
+  useInterval(() => {
     const checkLoginStatus = async () => {
       try {
-        const isLogged = await verifySession();
+        const isLogged = await verifySession(false);
         setIsLoggedIn(isLogged);
       } catch (error) {
         console.error('Error al verificar la sesión:', error);
@@ -413,7 +434,7 @@ const Home = ({
     };
 
     checkLoginStatus();
-  }, []);
+  }, 10000); // 60000 milisegundos = 1 minuto
 
   if (isLoggedIn === null) {
     // Mientras se verifica la sesión, puedes mostrar un mensaje de carga o un componente de carga
@@ -440,9 +461,9 @@ const Home = ({
   }
 
   return <HomeContent
-  serverSideApiKeyIsSet={serverSideApiKeyIsSet}
-  serverSidePluginKeysSet={serverSidePluginKeysSet}
-  defaultModelId={defaultModelId}/>;
+    serverSideApiKeyIsSet={serverSideApiKeyIsSet}
+    serverSidePluginKeysSet={serverSidePluginKeysSet}
+    defaultModelId={defaultModelId} />;
 };
 export default Home;
 
