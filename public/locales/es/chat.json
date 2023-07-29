@@ -25,7 +25,7 @@
   "Please enter a message": "Por favor, ingrese un mensaje",
   "Chatbot UI is an advanced chatbot kit for OpenAI's chat models aiming to mimic ChatGPT's interface and functionality.": "Guidev Studios OpenAI",
   "Are you sure you want to clear all messages?": "¿Está seguro de que desea borrar todos los mensajes?",
-  "Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.": "Valores más altos como 0,8 harán que la salida sea más aleatoria, mientras que valores más bajos como 0,2 la harán más enfocada y determinista.",
+  "Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.": "Ya te la sabes, valor como 0.8 es mas aleatorio y 0.2 menos.",
   "Search...": "Buscar...",
   "View Account Usage": "Ver Uso de Cuenta",
   "Developed by Guidev Studios (G.F.G.).": "Desarrollado por Guidev Studios (G.F.G.).",
