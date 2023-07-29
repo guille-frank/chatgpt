@@ -81,7 +81,7 @@ export const Import: FC<Props> = ({ onImport }) => {
   ) : (
     <SidebarButton
       text={t('Download My Chats')}
-      icon={isLoading?<IconLoader size={18} />:<IconDownload size={18} />}
+      icon={isLoading?<div className='animate-spin'><IconLoader size={18} /></div>:<IconDownload size={18} />}
       onClick={() => {
         if (!isLoading) {
           setIsConfirming(true);

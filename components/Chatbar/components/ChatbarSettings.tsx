@@ -47,7 +47,7 @@ export const ChatbarSettings = () => {
 
       <SidebarButton
         text={t('Update My Chats')}
-        icon={isButtonUploadDisabled ? <IconLoader size={18} /> : <IconFileUpload size={18} />}
+        icon={isButtonUploadDisabled ? <div className='animate-spin'><IconLoader size={18} /></div> : <IconFileUpload size={18} />}
         onClick={() => {
           if (!isButtonUploadDisabled) {
             setButtonUploadDisabled(true);
