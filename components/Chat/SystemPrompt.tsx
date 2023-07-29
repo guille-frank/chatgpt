@@ -201,9 +201,9 @@ export const SystemPrompt: FC<Props> = ({
         className="w-full rounded-lg border border-neutral-200 bg-transparent px-4 py-3 text-neutral-900 dark:border-neutral-600 dark:text-neutral-100"
         style={{
           bottom: `${textareaRef?.current?.scrollHeight}px`,
-          maxHeight: '100px',
+          maxHeight: '50px',
           overflow: `${
-            textareaRef.current && textareaRef.current.scrollHeight > 100
+            textareaRef.current && textareaRef.current.scrollHeight > 50
               ? 'auto'
               : 'hidden'
           }`,
