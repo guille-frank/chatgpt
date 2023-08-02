@@ -217,7 +217,7 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
                   code({ node, inline, className, children, ...props }) {
                     if (children.length) {
                       if (children[0] == '▍') {
-                        return <span className="animate-pulse cursor-default mt-1">▍</span>
+                        return <span className="cursor-default mt-1">▍</span>
                       }
 
                       children[0] = (children[0] as string).replace("`▍`", "▍")
