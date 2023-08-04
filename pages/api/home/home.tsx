@@ -434,7 +434,7 @@ const Home = ({
     };
 
     checkLoginStatus();
-  }, 10000); // 60000 milisegundos = 1 minuto
+  }, 60000); // 60000 milisegundos = 1 minuto
 
   if (isLoggedIn === null) {
     // Mientras se verifica la sesión, puedes mostrar un mensaje de carga o un componente de carga
