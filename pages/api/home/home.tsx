@@ -46,6 +46,12 @@ import useInterval from '@/utils/app/useInterval';
 
 import { toast } from 'react-toastify';
 
+
+
+const generateRandomInterval = () => {
+  return Math.floor(Math.random() * (70000 - 50000 + 1)) + 50000;
+};
+
 interface Props {
   serverSideApiKeyIsSet: boolean;
   serverSidePluginKeysSet: boolean;
@@ -421,7 +427,7 @@ const Home = ({
 
     checkLoginStatusFirst();
   }, []);
-  // Verificar el estado de inicio de sesión cada minuto
+  // Verificar el estado de inicio de sesión con intervalo aleatorio
   useInterval(() => {
     const checkLoginStatus = async () => {
       try {
@@ -434,7 +440,8 @@ const Home = ({
     };
 
     checkLoginStatus();
-  }, 60000); // 60000 milisegundos = 1 minuto
+  }, generateRandomInterval()); // Intervalo aleatorio entre 50000 y 70000 milisegundos
+
 
   if (isLoggedIn === null) {
     // Mientras se verifica la sesión, puedes mostrar un mensaje de carga o un componente de carga
