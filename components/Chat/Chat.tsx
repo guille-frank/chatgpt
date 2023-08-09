@@ -137,7 +137,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           return;
         }
         if (!plugin) {
-          if (updatedConversation.messages.length === 1) {
+          /*if (updatedConversation.messages.length === 1) {
             const { content } = message;
             const customName =
               content.length > 30 ? content.substring(0, 30) + '...' : content;
@@ -145,7 +145,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               ...updatedConversation,
               name: customName,
             };
-          }
+          }*/
           homeDispatch({ field: 'loading', value: false });
           const reader = data.getReader();
           const decoder = new TextDecoder();
