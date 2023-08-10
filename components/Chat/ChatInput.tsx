@@ -118,6 +118,7 @@ export const ChatInput = ({
       alert(t('Something went wrong!.'));
       return;
     }
+
     // Inicializar tiktoken
     const tiktoken = new Tiktoken(
       tiktokenModel.bpe_ranks,
@@ -137,13 +138,6 @@ export const ChatInput = ({
       );
       tiktoken.free();
       return;
-    } else {
-      alert(
-        t(
-          `Message limit is {{maxLength}} tokens. You have entered {{valueTokens}} tokens.`,
-          { maxLength: maxLength, valueTokens: maxLengthTokens },
-        ),
-      );
     }
 
     tiktoken.free();
