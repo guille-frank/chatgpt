@@ -27,6 +27,8 @@ import HomeContext from '@/pages/api/home/home.context';
 import { PluginSelect } from './PluginSelect';
 import { PromptList } from './PromptList';
 import { VariableModal } from './VariableModal';
+import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json'
+import { Tiktoken } from '@dqbd/tiktoken';
 
 interface Props {
   onSend: (message: Message, plugin: Plugin | null) => void;
@@ -71,18 +73,32 @@ export const ChatInput = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    const maxLength = selectedConversation?.model.maxLength;
 
-    if (maxLength && value.length > maxLength) {
+    const maxLength = selectedConversation?.model.maxLength;
+    /*
+    // Inicializar tiktoken
+    const tiktoken = new Tiktoken(
+      tiktokenModel.bpe_ranks,
+      tiktokenModel.special_tokens,
+      tiktokenModel.pat_str,
+    );
+
+    // Convertir maxLength de caracteres a tokens
+    const maxLengthTokens = tiktoken.encode(value).length;
+
+    if (value.length > maxLengthTokens) {
       alert(
         t(
-          `Message limit is {{maxLength}} characters. You have entered {{valueLength}} characters.`,
-          { maxLength, valueLength: value.length },
+          `Message limit is {{maxLength}} tokens. You have entered {{valueTokens}} tokens.`,
+          { maxLength: maxLengthTokens, valueTokens: tiktoken.encode(value).length },
         ),
       );
+      tiktoken.free();
       return;
     }
 
+    tiktoken.free();
+    */
     setContent(value);
     updatePromptListVisibility(value);
   };
@@ -96,6 +112,41 @@ export const ChatInput = ({
       alert(t('Please enter a message'));
       return;
     }
+
+    const maxLength = selectedConversation?.model.maxLength;
+    if (!maxLength ){
+      alert(t('Something went wrong!.'));
+      return;
+    }
+    // Inicializar tiktoken
+    const tiktoken = new Tiktoken(
+      tiktokenModel.bpe_ranks,
+      tiktokenModel.special_tokens,
+      tiktokenModel.pat_str,
+    );
+
+    // Convertir maxLength de caracteres a tokens
+    const maxLengthTokens = tiktoken.encode(content).length;
+
+    if (maxLengthTokens > maxLength) {
+      alert(
+        t(
+          `Message limit is {{maxLength}} tokens. You have entered {{valueTokens}} tokens.`,
+          { maxLength: maxLength, valueTokens: maxLengthTokens },
+        ),
+      );
+      tiktoken.free();
+      return;
+    } else {
+      alert(
+        t(
+          `Message limit is {{maxLength}} tokens. You have entered {{valueTokens}} tokens.`,
+          { maxLength: maxLength, valueTokens: maxLengthTokens },
+        ),
+      );
+    }
+
+    tiktoken.free();
 
     onSend({ role: 'user', content }, plugin);
     setContent('');
@@ -233,9 +284,8 @@ export const ChatInput = ({
     if (textareaRef && textareaRef.current) {
       textareaRef.current.style.height = 'inherit';
       textareaRef.current.style.height = `${textareaRef.current?.scrollHeight}px`;
-      textareaRef.current.style.overflow = `${
-        textareaRef?.current?.scrollHeight > 400 ? 'auto' : 'hidden'
-      }`;
+      textareaRef.current.style.overflow = `${textareaRef?.current?.scrollHeight > 400 ? 'auto' : 'hidden'
+        }`;
     }
   }, [content]);
 
@@ -283,7 +333,7 @@ export const ChatInput = ({
           <button
             className="absolute left-2 top-2 rounded-sm p-1 text-neutral-800 opacity-60 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200"
             onClick={() => setShowPluginSelect(!showPluginSelect)}
-            onKeyDown={(e) => {}}
+            onKeyDown={(e) => { }}
           >
             {plugin ? <IconBrandGoogle size={20} /> : <IconBolt size={20} />}
           </button>
@@ -318,11 +368,10 @@ export const ChatInput = ({
               resize: 'none',
               bottom: `${textareaRef?.current?.scrollHeight}px`,
               maxHeight: '400px',
-              overflow: `${
-                textareaRef.current && textareaRef.current.scrollHeight > 400
+              overflow: `${textareaRef.current && textareaRef.current.scrollHeight > 400
                   ? 'auto'
                   : 'hidden'
-              }`,
+                }`,
             }}
             placeholder={
               t('Type a message or type "/" to select a prompt...') || ''
@@ -386,7 +435,7 @@ export const ChatInput = ({
           rel="noreferrer"
           className="underline"
         >
-          Guidev Studios. 
+          Guidev Studios.
         </a>
         .{' '}
         {t(

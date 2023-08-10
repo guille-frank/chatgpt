@@ -17,36 +17,33 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { model, messages, key, prompt, temperature } = (await req.json()) as ChatBody;
 
+    // Inicialización de tiktoken
     await init((imports) => WebAssembly.instantiate(wasm, imports));
     const encoding = new Tiktoken(
       tiktokenModel.bpe_ranks,
       tiktokenModel.special_tokens,
       tiktokenModel.pat_str,
     );
+    const MAX_MESSAGES = model.maxMessages; // Número máximo de mensajes
+    const TOKEN_LIMIT_MARGIN = model.tokenLimitMargin; // Margen de seguridad para el límite de tokens
 
-    let promptToSend = prompt;
-    if (!promptToSend) {
-      promptToSend = DEFAULT_SYSTEM_PROMPT;
-    }
-
-    let temperatureToUse = temperature;
-    if (temperatureToUse == null) {
-      temperatureToUse = DEFAULT_TEMPERATURE;
-    }
+    let promptToSend = prompt || DEFAULT_SYSTEM_PROMPT;
+    let temperatureToUse = temperature ?? DEFAULT_TEMPERATURE;
 
     const prompt_tokens = encoding.encode(promptToSend);
 
     let tokenCount = prompt_tokens.length;
     let messagesToSend: Message[] = [];
 
-    for (let i = messages.length - 1; i >= 0; i--) {
+    for (let i = messages.length - 1; i >= 0 && messagesToSend.length < MAX_MESSAGES; i--) {
       const message = messages[i];
-      const tokens = encoding.encode(message.content);
+      const messageTokens = encoding.encode(message.content);
+      const totalTokens = prompt_tokens.length + messageTokens.length;
 
-      if (tokenCount + tokens.length + 1000 > model.tokenLimit) {
+      if (totalTokens + TOKEN_LIMIT_MARGIN > model.tokenLimit) {
         break;
       }
-      tokenCount += tokens.length;
+      tokenCount += totalTokens;
       messagesToSend = [message, ...messagesToSend];
     }
 

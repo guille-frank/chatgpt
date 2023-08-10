@@ -201,6 +201,8 @@ const HomeContent = ({
         name: OpenAIModels[defaultModelId].name,
         maxLength: OpenAIModels[defaultModelId].maxLength,
         tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
+        tokenLimitMargin: OpenAIModels[defaultModelId].tokenLimitMargin,
+        maxMessages: OpenAIModels[defaultModelId].maxMessages,
       },
       prompt: DEFAULT_SYSTEM_PROMPT,
       temperature: lastConversation?.temperature ?? DEFAULT_TEMPERATURE,
