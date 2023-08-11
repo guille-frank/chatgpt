@@ -24,10 +24,16 @@ export const verifySession = async (first: boolean) => {
     return false;
   } else {
     try {
+      const headers = {
+        // Agrega encabezados personalizados aquí
+        'User-Agent': navigator.userAgent,
+        'Accept': "application/json",
+        'DNT': "1",
+        // Otros encabezados si es necesario
+      };
       // Hacer una solicitud al servidor para verificar la cookie
       const response = await axios.get(
-        `https://backoffice.guidevstudios.com/wp-gstools/wp-json/gs/v1/check_cookie/${cookieValue}`
-      );
+        `https://backoffice.guidevstudios.com/wp-gstools/wp-json/gs/v1/check_cookie/${cookieValue}`);
 
       // Comprobar si el servidor retorna un array con "exists": true
       if (response.data.exists) {

@@ -26,6 +26,8 @@ export const Import: FC<Props> = ({ onImport }) => {
     const cookie = getCookieValue('wp-gstools_login');
 
     try {
+
+
       // Hacer la solicitud HTTP a la URL para obtener el archivo JSON
       console.log("https://backoffice.guidevstudios.com/wp-gstools/wp-json/gs/v1/get_json/${cookie}");
       const response = await axios.get(`https://backoffice.guidevstudios.com/wp-gstools/wp-json/gs/v1/get_json/${cookie}`);

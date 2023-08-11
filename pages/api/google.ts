@@ -11,6 +11,7 @@ import endent from 'endent';
 import jsdom, { JSDOM } from 'jsdom';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
+  /*
   try {
     const { messages, key, model, googleAPIKey, googleCSEId } =
       req.body as GoogleBody;
@@ -143,7 +144,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error'})
-  }
+  }*/
 };
 
 export default handler;
