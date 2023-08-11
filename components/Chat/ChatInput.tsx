@@ -114,7 +114,7 @@ export const ChatInput = ({
     }
 
     const maxLength = selectedConversation?.model.maxLength;
-    if (!maxLength ){
+    if (!maxLength){
       alert(t('Something went wrong!.'));
       return;
     }

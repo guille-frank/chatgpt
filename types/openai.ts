@@ -28,7 +28,7 @@ export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     maxLength: 2990,
     tokenLimit: 4000,
     tokenLimitMargin: 1010,
-    maxMessages: 10
+    maxMessages: 10,
   },
   [OpenAIModelID.GPT_3_5_AZ]: {
     id: OpenAIModelID.GPT_3_5_AZ,
@@ -36,7 +36,7 @@ export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     maxLength: 2990,
     tokenLimit: 4000,
     tokenLimitMargin: 1010,
-    maxMessages: 10
+    maxMessages: 10,
   },
   [OpenAIModelID.GPT_4]: {
     id: OpenAIModelID.GPT_4,
@@ -44,7 +44,7 @@ export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     maxLength: 6800,
     tokenLimit: 8100,
     tokenLimitMargin: 1300,
-    maxMessages: 15
+    maxMessages: 15,
   },
   [OpenAIModelID.GPT_4_32K]: {
     id: OpenAIModelID.GPT_4_32K,
@@ -52,7 +52,7 @@ export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     maxLength: 31100,
     tokenLimit: 32700,
     tokenLimitMargin: 1600,
-    maxMessages: 20
+    maxMessages: 20,
   },
   [OpenAIModelID.GPT_3_5_16K]: {
     id: OpenAIModelID.GPT_3_5_16K,
@@ -60,6 +60,6 @@ export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     maxLength: 15100,
     tokenLimit: 16300,
     tokenLimitMargin: 1200,
-    maxMessages: 12
+    maxMessages: 12,
   },
 };

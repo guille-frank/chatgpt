@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-import { OpenAIModel } from '@/types/openai';
+import { OpenAIModel, OpenAIModels, OpenAIModelID  } from '@/types/openai';
 
 import HomeContext from '@/pages/api/home/home.context';
 
@@ -17,14 +17,18 @@ export const ModelSelect = () => {
   } = useContext(HomeContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    selectedConversation &&
-      handleUpdateConversation(selectedConversation, {
+    const newModelId = e.target.value as OpenAIModelID; // Asegúrate de que newModelId sea del tipo OpenAIModelID
+    const newModel = OpenAIModels[newModelId];
+  
+    if (newModel) {
+      selectedConversation && handleUpdateConversation(selectedConversation, {
         key: 'model',
-        value: models.find(
-          (model) => model.id === e.target.value,
-        ) as OpenAIModel,
+        value: newModel,
       });
-  };
+    } else {
+      alert("Something wen't wrong");
+    }
+  };  
 
   return (
     <div className="flex flex-col">
