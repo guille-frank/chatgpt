@@ -93,27 +93,25 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         });
         homeDispatch({ field: 'loading', value: true });
         homeDispatch({ field: 'messageIsStreaming', value: true });
+        // Reduzcamos los mensajes a los últimos 10 o menos
+        const lastMessagesCount = Math.min(updatedConversation.messages.length, 10);
+        const lastMessages = updatedConversation.messages.slice(-lastMessagesCount);
+
+        const currentDate = new Date();
+        const formattedDate = currentDate.toString(); // Formato ISO para la fecha y hora
+        const updatedPrompt = `${updatedConversation.prompt}\nDate: ${formattedDate}`;
+
         const chatBody: ChatBody = {
           model: updatedConversation.model,
           messages: updatedConversation.messages,
           key: apiKey,
-          prompt: updatedConversation.prompt,
+          prompt: updatedPrompt, // Usar el prompt actualizado con la fecha y hora
           temperature: updatedConversation.temperature,
         };
         const endpoint = getEndpoint(plugin);
         let body;
         if (!plugin) {
           body = JSON.stringify(chatBody);
-        } else {
-          body = JSON.stringify({
-            ...chatBody,
-            googleAPIKey: pluginKeys
-              .find((key) => key.pluginId === 'google-search')
-              ?.requiredKeys.find((key) => key.key === 'GOOGLE_API_KEY')?.value,
-            googleCSEId: pluginKeys
-              .find((key) => key.pluginId === 'google-search')
-              ?.requiredKeys.find((key) => key.key === 'GOOGLE_CSE_ID')?.value,
-          });
         }
         const controller = new AbortController();
         const response = await fetch(endpoint, {
