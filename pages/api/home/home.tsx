@@ -63,7 +63,7 @@ const HomeContent = ({
   serverSidePluginKeysSet,
   defaultModelId,
 }: Props) => {
-  const { t } = useTranslation('No soy Chat GPT');;
+  const { t } = useTranslation('chat');
   const { getModels } = useApiService();
   const { getModelsError } = useErrorService();
   const [initialRender, setInitialRender] = useState<boolean>(true);
