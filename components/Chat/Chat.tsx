@@ -376,7 +376,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                      'CHAT GPT'
+                      'No soy un Chat GPT'
                     )}
                   </div>
 
