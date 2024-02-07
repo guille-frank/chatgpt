@@ -63,7 +63,7 @@ const HomeContent = ({
   serverSidePluginKeysSet,
   defaultModelId,
 }: Props) => {
-  const { t } = "No soy un CHAT GPT;
+  const { t } = "No soy un CHAT GPT";
   const { getModels } = useApiService();
   const { getModelsError } = useErrorService();
   const [initialRender, setInitialRender] = useState<boolean>(true);
