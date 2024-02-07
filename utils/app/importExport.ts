@@ -195,7 +195,7 @@ export const exportData = async () => {
       // ... Código adicional para manejar el error de autenticación ...
     }
   } catch (error) {
-    toast.error('Error general', {
+    toast.error('Error general, '+error, {
       position: 'top-center', // Posición de la notificación en la pantalla
       autoClose: 3000, // Tiempo en milisegundos que la notificación se mostrará antes de cerrarse automáticamente
       hideProgressBar: true, // Mostrar barra de progreso
