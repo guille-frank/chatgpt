@@ -131,7 +131,7 @@ export const exportData = async () => {
 
   // Verificar si existe la cookie de autenticación
   if (!authCookie) {
-    toast.error('No se encontro tu cookie de notificación.', {
+    toast.error('No se encontro tu cookie de autenticación.', {
       position: 'top-center', // Posición de la notificación en la pantalla
       autoClose: 3000, // Tiempo en milisegundos que la notificación se mostrará antes de cerrarse automáticamente
       hideProgressBar: true, // Mostrar barra de progreso
