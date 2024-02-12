@@ -156,7 +156,6 @@ export const exportData = async () => {
     const response = await fetch('https://backoffice.guidevstudios.com/wp-gstools/wp-json/gs/v1/save_json', {
       method: 'POST',
       headers: {
-        'User-Agent': navigator.userAgent,
         'Accept': "application/json",
         'DNT': "1",
         'Content-Type': 'application/json',
