@@ -13,7 +13,7 @@ export enum OpenAIModelID {
   GPT_3_5 = 'gpt-3.5-turbo',
   GPT_3_5_AZ = 'gpt-35-turbo',
   GPT_4 = 'gpt-4',
-  GPT_4_32K = 'gpt-4-32k',
+  GPT_4_turbo = 'gpt-4-turbo-preview',
   GPT_3_5_16K = 'gpt-3.5-turbo-16k',
 }
 //uwu
@@ -46,11 +46,11 @@ export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     tokenLimitMargin: 1300,
     maxMessages: 15,
   },
-  [OpenAIModelID.GPT_4_32K]: {
-    id: OpenAIModelID.GPT_4_32K,
-    name: 'GPT-4-32K',
-    maxLength: 31100,
-    tokenLimit: 32700,
+  [OpenAIModelID.GPT_4_turbo]: {
+    id: OpenAIModelID.GPT_4_turbo,
+    name: 'GPT-4-Turbo',
+    maxLength: 75000,
+    tokenLimit: 128000,
     tokenLimitMargin: 1600,
     maxMessages: 20,
   },
