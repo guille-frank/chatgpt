@@ -27,7 +27,7 @@ const summarizeLastMessages = async (messages: string, length: number): Promise<
 
   try {
     const response = await fetch(url, options);
-    const result = await response.json();
+    const result = await 
 
     if (result.ok && result.summary !== undefined) {
       return result.summary;
@@ -64,8 +64,7 @@ const handler = async (req: Request): Promise<Response> => {
       const lastMessages = messages.slice(messages.length - lastMessagesCount);
 
       const combinedMessagesContent = lastMessages.map((message) => message.content).join('\n');
-      const summarizedText = await summarizeLastMessages(combinedMessagesContent, messages.length);
-      context = `Context: ${summarizedText}\n\n`;
+      context = `Context: ${combinedMessagesContent}\n\n`;
     }
 
     let promptToSend = `${context}$\n${(prompt || DEFAULT_SYSTEM_PROMPT)}`;
