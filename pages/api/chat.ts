@@ -27,7 +27,7 @@ const summarizeLastMessages = async (messages: string, length: number): Promise<
 
   try {
     const response = await fetch(url, options);
-    const result = await 
+    const result = await response.json();
 
     if (result.ok && result.summary !== undefined) {
       return result.summary;
