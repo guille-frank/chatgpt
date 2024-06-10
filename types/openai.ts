@@ -15,6 +15,7 @@ export enum OpenAIModelID {
   GPT_4 = 'gpt-4',
   GPT_4_turbo = 'gpt-4-turbo-preview',
   GPT_3_5_16K = 'gpt-3.5-turbo-16k',
+  GPT_4O = 'gpt-4o',
 }
 //uwu
 
@@ -61,5 +62,13 @@ export const OpenAIModels: Record<OpenAIModelID, OpenAIModel> = {
     tokenLimit: 16300,
     tokenLimitMargin: 1200,
     maxMessages: 12,
+  },
+  [OpenAIModelID.GPT_4O]: {
+    id: OpenAIModelID.GPT_4O,
+    name: 'GPT-4o',
+    maxLength: 15100,
+    tokenLimit: 128000,
+    tokenLimitMargin: 3000,
+    maxMessages: 20,
   },
 };
