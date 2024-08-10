@@ -7,9 +7,6 @@ export const verifySession = async (first: boolean) => {
   // Obtener el valor de la cookie "wp-gstools_login"
   const cookieValue = getCookieValue('wp-gstools_login');
 
-  // Imprimir el valor de la cookie en la consola
-  console.log('Valor de la cookie wp-gstools_login:', cookieValue);
-
   if (!cookieValue) {
     if (first) {
       toast.info('¡Inicia sesión primero!', {
